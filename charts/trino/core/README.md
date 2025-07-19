@@ -1,8 +1,10 @@
-# trino
+# trino-core
 
-![Version: 1.39.0](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 475](https://img.shields.io/badge/AppVersion-475-informational?style=flat-square)
+![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 475](https://img.shields.io/badge/AppVersion-475-informational?style=flat-square)
 
-Fast distributed SQL query engine for big data analytics that helps you explore your data universe
+Fast distributed SQL query engine for big data analytics that helps you explore your data universe.
+
+This repo holds helm chart of **core** components of a trino cluster that has to be setup only once, including the coordinator and its autoscaler
 
 **Homepage:** <https://trino.io/>
 

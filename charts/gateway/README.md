@@ -1,8 +1,8 @@
 # trino-gateway
 
-![Version: 1.15.1](https://img.shields.io/badge/Version-0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 15](https://img.shields.io/badge/AppVersion-beta-informational?style=flat-square)
+![Version: 0.0.1](https://img.shields.io/badge/Version-0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 15](https://img.shields.io/badge/AppVersion-beta-informational?style=flat-square)
 
-A Helm chart for Trino Gateway
+A custom helm chart for Trino Gateway
 
 **Homepage:** <https://trinodb.github.io/trino-gateway/>
 
