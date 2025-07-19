@@ -2,7 +2,7 @@ apiVersion: v2
 name: trino-kopf
 description: A Helm chart for trino kubernetes operator
 type: application
-version: "0.0.3"
+version: "0.0.1"
 appVersion: "1.38.0"
 
 maintainers:
