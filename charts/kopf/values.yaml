@@ -23,6 +23,13 @@ config:
     http-server.http.port: 8081
     http-server.http.enabled: true
 
+# -- Startup command for Trino Kopf process. Add additional Java options and other modifications as desired.
+command:
+  - "kopf"
+  - "run"
+  - "--verbose"
+  - "/app/operator.py"
+
 resources:
   limits:
     cpu: 2
