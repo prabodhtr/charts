@@ -1,5 +1,24 @@
 apiVersion: v1
 entries:
+  trino-core:
+  - apiVersion: v2
+    appVersion: "475"
+    created: "2025-07-19T16:50:16.489462361Z"
+    description: core components of a trino cluster that has to be setup only once,
+      including the coordinator and its autoscaler
+    digest: cd82182bdbc04345bddea96d93420dc63d381e51ff64621897b62f6d34be70f3
+    home: https://trino.io/
+    icon: https://trino.io/assets/trino.png
+    maintainers:
+    - name: Prabodh T R
+    name: trino-core
+    sources:
+    - https://github.com/trinodb/charts
+    - https://github.com/trinodb/trino/tree/master/core/docker
+    type: application
+    urls:
+    - https://github.com/prabodhtr/charts/releases/download/trino-core-0.0.1/trino-core-0.0.1.tgz
+    version: 0.0.1
   trino-gateway:
   - apiVersion: v2
     appVersion: "15"
@@ -46,4 +65,23 @@ entries:
     urls:
     - https://github.com/prabodhtr/charts/releases/download/trino-kopf-0.0.1/trino-kopf-0.0.1.tgz
     version: 0.0.1
-generated: "2025-07-19T16:50:13.022964001Z"
+  trino-workers:
+  - apiVersion: v2
+    appVersion: "475"
+    created: "2025-07-19T16:50:16.626663272Z"
+    description: Worker components of a trino cluster, that should be setup for each
+      coordinator instance within the cluster as it scales
+    digest: fcfdf177ab16bec66b930d45be139f6186489b21cd4b401aa9d9271832786f69
+    home: https://trino.io/
+    icon: https://trino.io/assets/trino.png
+    maintainers:
+    - name: Prabodh T R
+    name: trino-workers
+    sources:
+    - https://github.com/trinodb/charts
+    - https://github.com/trinodb/trino/tree/master/core/docker
+    type: application
+    urls:
+    - https://github.com/prabodhtr/charts/releases/download/trino-workers-0.0.1/trino-workers-0.0.1.tgz
+    version: 0.0.1
+generated: "2025-07-19T16:50:16.62667795Z"
