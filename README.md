@@ -90,7 +90,8 @@ The documentation is automatically generated from the chart files. Install a
 git hook to have it automatically updated when committing changes. Make sure
 you [install the pre-commit binary](https://pre-commit.com/#install), then run:
 
+
 ```console
 pre-commit install
-pre-commit install-hooks
+pre-commit install-hooks 
 ```
