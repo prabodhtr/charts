@@ -1,64 +1,58 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cluster-operator
+  name: {{ include "trino-kopf.fullname" . }}
   labels:
-    app.kubernetes.io/component: cluster-operator
+    app.kubernetes.io/component: kopf-deployment
+    {{- include "trino-kopf.labels" . | nindent 4 }}
 
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: cluster-operator
+      {{- include "trino-kopf.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: kopf-operator
   template:
     metadata:
+      annotations:
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app: cluster-operator
+        app.kubernetes.io/component: kopf-operator
+        {{- include "trino-kopf.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
-      serviceAccountName: slave-operator
+      serviceAccountName: {{ include "trino-kopf.serviceAccountName" . }}
+      {{- if .Values.initContainers }}
       initContainers:
-        - name: copy-config
-          image: busybox
-          command: [ "/bin/sh", "-c", "cp -r /chart /post-construct && cp -r /templates /post-construct/chart" ]
-          volumeMounts:
-            - name: post-construct-templates
-              mountPath: "/templates"
-            - name: post-construct-chart
-              mountPath: "/chart"
-            - name: post-construct
-              mountPath: "/post-construct"
+      {{- tpl (toYaml .Values.initContainers) . | nindent 6 }}
+      {{- end }}
 
       containers:
-        - name: kopf
-          image: kopf:latest
-          imagePullPolicy: Never
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
+            {{- if index .Values "config" "serverConfig" "http-server.http.enabled" }}
             - name: http
-              containerPort: 8081
+              containerPort: {{ index .Values "config" "serverConfig" "http-server.http.port" }}
               protocol: TCP
+            {{- end }}
+            {{- if index .Values "config" "serverConfig" "http-server.https.enabled" }}
+            - name: https
+              containerPort: {{ index .Values "config" "serverConfig" "http-server.https.port" }}
+              protocol: TCP
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - name: main
-              mountPath: "/app/operator.py"
-              subPath: "operator.py"
-              readOnly: true
-            - name: trino-override
-              mountPath: "/app/trino-override.yaml"
-              subPath: "trino-override.yaml"
-              readOnly: true
-            - name: post-construct
-              mountPath: "/post-construct"
+          {{- with .Values.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       volumes:
-        - name: main
-          configMap:
-            name: kopf-operator-code
-        - name: trino-override
-          configMap:
-            name: trino-override
-        - name: post-construct-chart
-          configMap:
-            name: post-construct-chart
-        - name: post-construct-templates
-          configMap:
-            name: post-construct-templates
-        - name: post-construct
-          emptyDir: {}
+      {{- with .Values.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

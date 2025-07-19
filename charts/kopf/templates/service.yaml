@@ -1,15 +1,34 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: cluster-operator-service
+  name: {{ .Values.serviceName }}
   labels:
-    app.kubernetes.io/component: cluster-operator-service
+    app.kubernetes.io/component: kopf-service
+    {{- include "trino-kopf.labels" . | nindent 4 }}
+  annotations:
+    {{- toYaml .Values.service.annotations | nindent 4 }}
+
 spec:
-  type: ClusterIP
+  type: {{ .Values.service.type }}
   ports:
-    - port: 8081
+
+    {{- if index .Values "config" "serverConfig" "http-server.http.enabled" }}
+    - port: {{ index .Values "config" "serverConfig" "http-server.http.port" }}
       targetPort: http
       protocol: TCP
       name: http
+      {{- if .Values.service.nodePort }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
+    {{- end }}
+
+    {{- if index .Values "config" "serverConfig" "http-server.https.enabled" }}
+    - port: {{ index .Values "config" "serverConfig" "http-server.https.port" }}
+      targetPort: https
+      protocol: TCP
+      name: https
+    {{- end }}
+
   selector:
-    app: cluster-operator
+    app.kubernetes.io/component: kopf-operator
+    {{- include "trino-kopf.selectorLabels" . | nindent 4 }}

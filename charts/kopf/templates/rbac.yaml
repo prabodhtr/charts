@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: ClusterRole # required for cluster wide access control not limited to one particular namespace
 metadata:
-  name: slave-operator-role
+  name: kopf-role
 rules:
   - apiGroups: [""]
     resources: ["pods", "events","pods/status", "namespaces", "services", "services/status"]
@@ -19,12 +19,14 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: slave-operator-binding
+  name: kopf-role-binding
+
 roleRef:
   kind: ClusterRole
-  name: slave-operator-role
+  name: kopf-role
   apiGroup: rbac.authorization.k8s.io
+
 subjects:
   - kind: ServiceAccount
-    name: slave-operator
-    namespace: default
+    name: {{ include "trino-kopf.serviceAccountName" . }}
+    namespace: default #subjects are always scoped to namespaces although it need not be created in a specific one
