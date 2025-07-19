@@ -33,4 +33,17 @@ entries:
     urls:
     - https://github.com/prabodhtr/charts/releases/download/trino-gateway-0.0.1/trino-gateway-0.0.1.tgz
     version: 0.0.1
-generated: "2025-07-19T16:45:52.895443998Z"
+  trino-kopf:
+  - apiVersion: v2
+    appVersion: 1.38.0
+    created: "2025-07-19T16:50:13.02293683Z"
+    description: A Helm chart for trino kubernetes operator
+    digest: d91b167a615111ec3c2c06db5fb15328839d3a51d8befc5696d92fae60c425d3
+    maintainers:
+    - name: Prabodh T R
+    name: trino-kopf
+    type: application
+    urls:
+    - https://github.com/prabodhtr/charts/releases/download/trino-kopf-0.0.1/trino-kopf-0.0.1.tgz
+    version: 0.0.1
+generated: "2025-07-19T16:50:13.022964001Z"
