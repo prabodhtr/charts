@@ -22,6 +22,22 @@ entries:
   trino-gateway:
   - apiVersion: v2
     appVersion: "15"
+    created: "2025-07-19T17:04:23.541223393Z"
+    description: A Helm chart for Trino Gateway
+    digest: 203f4a5e0901f53f452506076d0df26f7e85a2495059829f64c681197655b838
+    icon: https://trino.io/assets/images/logos/trino-gateway-small.png
+    maintainers:
+    - name: Prabodh T R
+    name: trino-gateway
+    sources:
+    - https://github.com/trinodb/charts
+    - https://github.com/trinodb/trino-gateway
+    type: application
+    urls:
+    - https://github.com/prabodhtr/charts/releases/download/trino-gateway-0.0.4/trino-gateway-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: "15"
     created: "2025-07-19T16:41:32.105171953Z"
     description: A Helm chart for Trino Gateway
     digest: 0687ef4afd81dbde664aa153f597a85d65f63ca3678d2831e7b002b864f7a78e
@@ -84,4 +100,4 @@ entries:
     urls:
     - https://github.com/prabodhtr/charts/releases/download/trino-workers-0.0.1/trino-workers-0.0.1.tgz
     version: 0.0.1
-generated: "2025-07-19T16:50:16.62667795Z"
+generated: "2025-07-19T17:04:23.741454118Z"
