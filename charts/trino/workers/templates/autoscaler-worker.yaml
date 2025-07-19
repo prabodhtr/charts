@@ -1,0 +1,39 @@
+{{- if .Values.worker.autoscaling.enabled -}}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "trino.worker" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "trino.labels" . | nindent 4 }}
+    cluster-group: {{ .Values.clusterGroup }}
+    cluster-instance: {{ template "trino.clusterInstance" . }}
+spec:
+  maxReplicas: {{ .Values.worker.autoscaling.maxReplicas }}
+  minReplicas: {{ .Values.server.workers }}
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ template "trino.worker" . }}
+  metrics:
+  {{- if .Values.worker.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.worker.autoscaling.targetMemoryUtilizationPercentage }}
+  {{- end }}
+  {{- if .Values.worker.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.worker.autoscaling.targetCPUUtilizationPercentage }}
+  {{- end }}
+  {{ if .Values.worker.autoscaling.behavior -}}
+  behavior:
+    {{- toYaml .Values.worker.autoscaling.behavior | nindent 4 }}
+  {{- end }}
+{{- end }}

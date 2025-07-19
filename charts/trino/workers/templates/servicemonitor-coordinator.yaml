@@ -10,11 +10,15 @@ metadata:
     {{- if $coordinatorServiceMonitor.labels }}
     {{- toYaml $coordinatorServiceMonitor.labels | nindent 4 }}
     {{- end }}
+    cluster-group: {{ .Values.clusterGroup }}
+    cluster-instance: {{ template "trino.clusterInstance" . }}
 spec:
   selector:
     matchLabels:
       {{- include "trino.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: coordinator
+      cluster-group: {{ .Values.clusterGroup }}
+      cluster-instance: {{ template "trino.clusterInstance" . }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}

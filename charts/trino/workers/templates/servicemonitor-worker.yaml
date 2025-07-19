@@ -6,6 +6,8 @@ metadata:
   name: {{ template "trino.fullname" . }}-worker
   namespace: {{ .Release.Namespace }}
   labels:
+    cluster-group: {{ .Values.clusterGroup }}
+    cluster-instance: {{ template "trino.clusterInstance" . }}
     {{- include "trino.labels" . | nindent 4 }}
     {{- if $workerServiceMonitor.labels }}
     {{- toYaml $workerServiceMonitor.labels | nindent 4 }}
@@ -15,6 +17,8 @@ spec:
     matchLabels:
       {{- include "trino.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: worker
+      cluster-group: {{ .Values.clusterGroup }}
+      cluster-instance: {{ template "trino.clusterInstance" . }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}

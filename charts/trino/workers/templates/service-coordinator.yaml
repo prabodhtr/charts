@@ -2,11 +2,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "trino.fullname" . }}
+  name: {{ template "trino.coordinatorService" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "trino.labels" . | nindent 4 }}
     app.kubernetes.io/component: coordinator
+    cluster-group: {{ .Values.clusterGroup }}
+    cluster-instance: {{ template "trino.clusterInstance" . }}
   annotations:
     {{- toYaml .Values.service.annotations | nindent 4 }}
 spec:
@@ -46,3 +48,5 @@ spec:
   selector:
     {{- include "trino.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: coordinator
+    cluster-group: {{ .Values.clusterGroup }}
+    cluster-instance: {{ template "trino.clusterInstance" . }}

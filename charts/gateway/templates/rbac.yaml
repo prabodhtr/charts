@@ -1,0 +1,20 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: routing-rule-reader
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get","create", "put"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: routing-rule-reader
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "trino-gateway.serviceAccountName" . }}
+roleRef:
+  kind: Role
+  name: routing-rule-reader
+  apiGroup: rbac.authorization.k8s.io

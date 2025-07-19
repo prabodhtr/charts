@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-operator
+  labels:
+    app.kubernetes.io/component: cluster-operator
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cluster-operator
+  template:
+    metadata:
+      labels:
+        app: cluster-operator
+    spec:
+      serviceAccountName: slave-operator
+      initContainers:
+        - name: copy-config
+          image: busybox
+          command: [ "/bin/sh", "-c", "cp -r /chart /post-construct && cp -r /templates /post-construct/chart" ]
+          volumeMounts:
+            - name: post-construct-templates
+              mountPath: "/templates"
+            - name: post-construct-chart
+              mountPath: "/chart"
+            - name: post-construct
+              mountPath: "/post-construct"
+
+      containers:
+        - name: kopf
+          image: kopf:latest
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8081
+              protocol: TCP
+          volumeMounts:
+            - name: main
+              mountPath: "/app/operator.py"
+              subPath: "operator.py"
+              readOnly: true
+            - name: trino-override
+              mountPath: "/app/trino-override.yaml"
+              subPath: "trino-override.yaml"
+              readOnly: true
+            - name: post-construct
+              mountPath: "/post-construct"
+      volumes:
+        - name: main
+          configMap:
+            name: kopf-operator-code
+        - name: trino-override
+          configMap:
+            name: trino-override
+        - name: post-construct-chart
+          configMap:
+            name: post-construct-chart
+        - name: post-construct-templates
+          configMap:
+            name: post-construct-templates
+        - name: post-construct
+          emptyDir: {}

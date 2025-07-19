@@ -59,7 +59,7 @@ server:
     # PASSWORD, CERTIFICATE, OAUTH2, JWT, KERBEROS.
     authenticationType: ""
     query:
-      maxMemory: "4GB"
+      maxMemory: "1GB"
   exchangeManager: {}
   # server.exchangeManager -- Mandatory [exchange manager
   # configuration](https://trino.io/docs/current/admin/fault-tolerant-execution.html#id1).
@@ -84,39 +84,6 @@ server:
 
   workerExtraConfig: ""
   coordinatorExtraConfig: ""
-  # server.autoscaling -- Configure [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
-  # for workers (`server.keda.enabled` must be `false`).
-  autoscaling:
-    enabled: false
-    maxReplicas: 5
-    # -- Target average CPU utilization, represented as a percentage of requested CPU. To disable scaling based on CPU,
-    # set to an empty string.
-    targetCPUUtilizationPercentage: 50
-    # -- Target average memory utilization, represented as a percentage of requested memory. To disable scaling
-    # based on memory, set to an empty string.
-    targetMemoryUtilizationPercentage: 80
-    behavior: {}
-    # server.autoscaling.behavior -- Configuration for scaling up and down.
-    # @raw
-    # Example:
-    # ```yaml
-    #  scaleDown:
-    #    stabilizationWindowSeconds: 300
-    #    policies:
-    #    - type: Percent
-    #      value: 100
-    #      periodSeconds: 15
-    #  scaleUp:
-    #    stabilizationWindowSeconds: 0
-    #    policies:
-    #    - type: Percent
-    #      value: 100
-    #      periodSeconds: 15
-    #    - type: Pods
-    #      value: 4
-    #      periodSeconds: 15
-    #    selectPolicy: Max
-    # ```
 
   # server.keda -- Configure [Kubernetes Event-driven Autoscaling](https://keda.sh/) for workers
   # (`server.autoscaling.enabled` must be `false`).
@@ -569,7 +536,7 @@ coordinator:
     # coordinator.deployment.strategy -- The deployment strategy to use to replace existing pods with new ones.
 
   jvm:
-    maxHeapSize: "8G"
+    maxHeapSize: "800M"
     gcMethod:
       type: "UseG1GC"
       g1:
@@ -585,7 +552,7 @@ coordinator:
       # coordinator can negatively impact query performance because the machine's resources are not available for the
       # critical coordinator tasks of scheduling, managing, and monitoring query execution.
     query:
-      maxMemoryPerNode: "1GB"
+      maxMemoryPerNode: "200MB"
 
   additionalJVMConfig: []
 
@@ -618,6 +585,40 @@ coordinator:
   #    cpu: 100m
   #    memory: 128Mi
   # ```
+
+  # coordinator.autoscaling -- Configure [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+  # for workers (`server.keda.enabled` must be `false`).
+  autoscaling:
+    enabled: false
+    maxReplicas: 2
+    # -- Target average CPU utilization, represented as a percentage of requested CPU. To disable scaling based on CPU,
+    # set to an empty string.
+    targetCPUUtilizationPercentage: 50
+    # -- Target average memory utilization, represented as a percentage of requested memory. To disable scaling
+    # based on memory, set to an empty string.
+    targetMemoryUtilizationPercentage: 80
+    behavior: {}
+    # coordinator.autoscaling.behavior -- Configuration for scaling up and down.
+    # @raw
+    # Example:
+    # ```yaml
+    #  scaleDown:
+    #    stabilizationWindowSeconds: 300
+    #    policies:
+    #    - type: Percent
+    #      value: 100
+    #      periodSeconds: 15
+    #  scaleUp:
+    #    stabilizationWindowSeconds: 0
+    #    policies:
+    #    - type: Percent
+    #      value: 100
+    #      periodSeconds: 15
+    #    - type: Pods
+    #      value: 4
+    #      periodSeconds: 15
+    #    selectPolicy: Max
+    # ```
 
   livenessProbe: {}
   # coordinator.livenessProbe -- [Liveness
@@ -749,7 +750,7 @@ worker:
     memory:
       heapHeadroomPerNode: ""
     query:
-      maxMemoryPerNode: "1GB"
+      maxMemoryPerNode: "200MB"
 
   additionalJVMConfig: []
 
@@ -781,6 +782,40 @@ worker:
   #    cpu: 100m
   #    memory: 128Mi
   # ```
+
+  # worker.autoscaling -- Configure [Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+  # for workers (`server.keda.enabled` must be `false`).
+  autoscaling:
+    enabled: false
+    maxReplicas: 5
+    # -- Target average CPU utilization, represented as a percentage of requested CPU. To disable scaling based on CPU,
+    # set to an empty string.
+    targetCPUUtilizationPercentage: 50
+    # -- Target average memory utilization, represented as a percentage of requested memory. To disable scaling
+    # based on memory, set to an empty string.
+    targetMemoryUtilizationPercentage: 80
+    behavior: {}
+    # worker.autoscaling.behavior -- Configuration for scaling up and down.
+    # @raw
+    # Example:
+    # ```yaml
+    #  scaleDown:
+    #    stabilizationWindowSeconds: 300
+    #    policies:
+    #    - type: Percent
+    #      value: 100
+    #      periodSeconds: 15
+    #  scaleUp:
+    #    stabilizationWindowSeconds: 0
+    #    policies:
+    #    - type: Percent
+    #      value: 100
+    #      periodSeconds: 15
+    #    - type: Pods
+    #      value: 4
+    #      periodSeconds: 15
+    #    selectPolicy: Max
+    # ```
 
   livenessProbe: {}
   # worker.livenessProbe -- [Liveness
@@ -954,7 +989,7 @@ jmx:
     # jmx.exporter.enabled -- Set to true to export JMX Metrics via HTTP for [Prometheus](https://github.com/prometheus/jmx_exporter) consumption
     enabled: false
     image: bitnami/jmx-exporter:1.0.1
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     port: 5556
     configProperties: ""
     # jmx.exporter.configProperties -- The string value is templated using `tpl`. The JMX config properties file
@@ -1134,3 +1169,9 @@ networkPolicy:
   #        port: 9999
   # ```
   egress: []
+
+kopf:
+  image:
+    repository: kopf
+    tag: local
+    pullPolicy: Never

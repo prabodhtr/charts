@@ -55,7 +55,7 @@ command:
 
 # -- Service for accessing the gateway. The contents of this dictionary are used
 #  for the [service spec](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
-# The `port` and `targetPort` of the first element
+# The `port` and `targetPort`coordinatorExtraConfig of the first element
 # of the ports list will automatically be set to the value of
 # `config.serverConfig."http-server.http[s].port"`. If both https and http ports are defined
 # the https port is used. In this case, an additional service for the http port must be

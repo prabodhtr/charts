@@ -15,11 +15,15 @@ If release name contains chart name it will be used as a full name.
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
+{{- if .Values.clusterGroup }}
+{{- .Values.clusterGroup | trunc 63 | trimSuffix "-" }}
+{{- else }}
 {{- $name := default .Chart.Name .Values.nameOverride }}
 {{- if hasPrefix .Release.Name $name }}
 {{- $name | trunc 63 | trimSuffix "-" }}
 {{- else }}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -35,11 +39,15 @@ Create chart name and version as used by the chart label.
 {{- if .Values.coordinatorNameOverride }}
 {{- .Values.coordinatorNameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
+{{- if .Values.clusterGroup }}
+{{- printf "%s-%s" .Values.clusterGroup "coordinator" | trunc 63 | trimSuffix "-" }}
+{{- else }}
 {{- $name := default .Chart.Name .Values.nameOverride }}
 {{- if hasPrefix .Release.Name $name }}
 {{- printf "%s-%s" $name "coordinator" | trunc 63 | trimSuffix "-" }}
 {{- else }}
 {{- printf "%s-%s-%s" .Release.Name $name "coordinator" | trunc 63 | trimSuffix "-" }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -57,6 +65,19 @@ Create chart name and version as used by the chart label.
 {{- end }}
 {{- end }}
 
+
+{{- define "trino.clusterInstance" -}}
+{{- if .Values.clusterInstance }}
+{{- .Values.clusterInstance }}
+{{- else }}
+{{- printf "%s-%s" .Values.clusterGroup "1" }}
+{{- end }}
+{{- end }}
+
+
+{{- define "trino.coordinatorService" -}}
+{{ template "trino.clusterInstance" . }}-coordinator
+{{- end -}}
 
 {{- define "trino.catalog" -}}
 {{ template "trino.fullname" . }}-catalog

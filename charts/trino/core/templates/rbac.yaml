@@ -1,0 +1,33 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kopf-operator-role
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "trino.labels" . | nindent 4 }}
+    app.kubernetes.io/component: rbac
+
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "events","pods/status"]
+    verbs: ["list", "watch", "patch", "create"]
+  - apiGroups: ["apps", "apiextensions.k8s.io"]
+    resources: ["deployments", "customresourcedefinitions"]
+    verbs: ["get", "create", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kopf-operator-binding
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "trino.labels" . | nindent 4 }}
+    app.kubernetes.io/component: kopf-operator-binding
+roleRef:
+  kind: ClusterRole
+  name: kopf-operator-role
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "trino.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}

@@ -8,6 +8,7 @@ metadata:
   labels:
     {{- include "trino.labels" . | nindent 4 }}
     app.kubernetes.io/component: jmx
+    cluster-group: {{ .Values.clusterGroup }}
 data:
   jmx-exporter-config.yaml: |-
     {{- tpl $coordinatorJmx.exporter.configProperties . | nindent 4 }}
@@ -23,6 +24,7 @@ metadata:
   labels:
     {{- include "trino.labels" . | nindent 4 }}
     app.kubernetes.io/component: jmx
+    cluster-group: {{ .Values.clusterGroup }}
 data:
   jmx-exporter-config.yaml: |-
     {{- tpl $workerJmx.exporter.configProperties . | nindent 4 }}

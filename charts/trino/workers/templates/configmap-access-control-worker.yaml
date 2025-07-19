@@ -7,6 +7,8 @@ metadata:
   labels:
     {{- include "trino.labels" . | nindent 4 }}
     app.kubernetes.io/component: worker
+    cluster-group: {{ .Values.clusterGroup }}
+    cluster-instance: {{ template "trino.clusterInstance" . }}
 data:
   graceful-shutdown-rules.json: >-
     {

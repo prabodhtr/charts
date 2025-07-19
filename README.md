@@ -52,7 +52,7 @@ More information about Trino, Trino Gateway, and the charts is available in the
 following resources:
 
 * [Trino Kubernetes documentation](https://trino.io/docs/current/installation/kubernetes.html)
-* [trino/trino chart configuration](./charts/trino/README.md)
+* [trino/trino chart configuration](charts/trino/core/README.md)
 * [Trino documentation](https://trino.io/docs/current/index.html)
 * [Trino Gateway Kubernetes documentation](https://trinodb.github.io/trino-gateway/installation/#helm)
 * [trino/trino-gateway chart configuration](./charts/gateway/README.md)
@@ -62,7 +62,7 @@ following resources:
 
 To test the chart, install it into a Kubernetes cluster. Use `kind` to create a
 Kubernetes cluster running in a container, and `chart-testing` to install the
-chart and run [tests](charts/trino/templates/tests).
+chart and run [tests](charts/trino/core/templates/tests).
 
 ```console
 brew install helm kind chart-testing

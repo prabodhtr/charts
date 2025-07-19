@@ -8,6 +8,8 @@ metadata:
   labels:
     {{- include "trino.labels" . | nindent 4 }}
     app.kubernetes.io/component: worker
+    cluster-group: {{ .Values.clusterGroup }}
+    cluster-instance: {{ template "trino.clusterInstance" . }}
 data:
   node.properties: |
     node.environment={{ tpl .Values.server.node.environment . }}
@@ -57,7 +59,7 @@ data:
     {{- if .Values.worker.config.memory.heapHeadroomPerNode }}
     memory.heap-headroom-per-node={{ .Values.worker.config.memory.heapHeadroomPerNode }}
     {{- end }}
-    discovery.uri=http://{{ template "trino.fullname" . }}:{{ .Values.service.port }}
+    discovery.uri=http://{{ .Values.coordinator.host }}:{{ .Values.service.port }}
     {{- range $configValue := .Values.additionalConfigProperties }}
     {{ $configValue }}
     {{- end }}
@@ -108,11 +110,13 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "trino.fullname" . }}-schemas-volume-worker
+  name: {{ template "trino.clusterInstance" . }}-schemas-volume-worker
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "trino.labels" . | nindent 4 }}
     app.kubernetes.io/component: worker
+    cluster-group: {{ .Values.clusterGroup }}
+    cluster-instance: {{ template "trino.clusterInstance" . }}
 data:
   {{- range $key, $val := .Values.kafka.tableDescriptions }}
   {{ $key }}: {{ $val | quote }}
