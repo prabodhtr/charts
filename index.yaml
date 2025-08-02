@@ -3,6 +3,24 @@ entries:
   trino-core:
   - apiVersion: v2
     appVersion: "475"
+    created: "2025-08-02T14:08:10.384194569Z"
+    description: core components of a trino cluster that has to be setup only once,
+      including the coordinator and its autoscaler
+    digest: 08f2c0e4d9a4ba36fc6c091b4c62aa165eaa88e0f900781ddef534da2439c30a
+    home: https://trino.io/
+    icon: https://trino.io/assets/trino.png
+    maintainers:
+    - name: Prabodh T R
+    name: trino-core
+    sources:
+    - https://github.com/trinodb/charts
+    - https://github.com/trinodb/trino/tree/master/core/docker
+    type: application
+    urls:
+    - https://github.com/prabodhtr/charts/releases/download/trino-core-0.0.2/trino-core-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: "475"
     created: "2025-07-19T16:50:16.489462361Z"
     description: core components of a trino cluster that has to be setup only once,
       including the coordinator and its autoscaler
@@ -84,6 +102,24 @@ entries:
   trino-workers:
   - apiVersion: v2
     appVersion: "475"
+    created: "2025-08-02T14:08:10.545368106Z"
+    description: Worker components of a trino cluster, that should be setup for each
+      coordinator instance within the cluster as it scales
+    digest: 5ecfea2c1b277a8b083410391e2c20cd4cdbe1c32f3493298bef512a0e39c8f6
+    home: https://trino.io/
+    icon: https://trino.io/assets/trino.png
+    maintainers:
+    - name: Prabodh T R
+    name: trino-workers
+    sources:
+    - https://github.com/trinodb/charts
+    - https://github.com/trinodb/trino/tree/master/core/docker
+    type: application
+    urls:
+    - https://github.com/prabodhtr/charts/releases/download/trino-workers-0.0.2/trino-workers-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: "475"
     created: "2025-07-19T16:50:16.626663272Z"
     description: Worker components of a trino cluster, that should be setup for each
       coordinator instance within the cluster as it scales
@@ -100,4 +136,4 @@ entries:
     urls:
     - https://github.com/prabodhtr/charts/releases/download/trino-workers-0.0.1/trino-workers-0.0.1.tgz
     version: 0.0.1
-generated: "2025-07-19T17:04:23.741454118Z"
+generated: "2025-08-02T14:08:10.545383937Z"
