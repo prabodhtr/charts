@@ -21,7 +21,6 @@ spec:
     {{- toYaml .Values.coordinator.deployment.strategy | nindent 4 }}
   selector:
     matchLabels:
-      {{- include "trino.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: coordinator
       cluster-group: {{ .Values.clusterGroup }}
   template:

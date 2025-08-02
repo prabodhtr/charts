@@ -26,7 +26,6 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "trino.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: worker
       cluster-group: {{ .Values.clusterGroup }}
       cluster-instance: {{ template "trino.clusterInstance" . }}
