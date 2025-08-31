@@ -89,6 +89,18 @@ entries:
   trino-kopf:
   - apiVersion: v2
     appVersion: 1.38.0
+    created: "2025-08-31T17:28:36.405424526Z"
+    description: A Helm chart for trino kubernetes operator
+    digest: b0ad19c2fbfdd3484f538ec7fd9d447e28ef26e1477296e09b27c0b45c9480b0
+    maintainers:
+    - name: Prabodh T R
+    name: trino-kopf
+    type: application
+    urls:
+    - https://github.com/prabodhtr/charts/releases/download/trino-kopf-0.0.4/trino-kopf-0.0.4.tgz
+    version: 0.0.4
+  - apiVersion: v2
+    appVersion: 1.38.0
     created: "2025-08-31T17:25:30.562993415Z"
     description: A Helm chart for trino kubernetes operator
     digest: bda474bb7eb70803cbfd55e975ab58978afe5f1e56430c5011d8cb440c3ffbf5
@@ -160,4 +172,4 @@ entries:
     urls:
     - https://github.com/prabodhtr/charts/releases/download/trino-workers-0.0.1/trino-workers-0.0.1.tgz
     version: 0.0.1
-generated: "2025-08-31T17:25:30.563024092Z"
+generated: "2025-08-31T17:28:36.405456887Z"
