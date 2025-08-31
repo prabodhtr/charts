@@ -5,7 +5,7 @@ metadata:
 rules:
   - apiGroups: [""]
     resources: ["pods", "events","pods/status", "namespaces", "services", "services/status", "configmaps"]
-    verbs: ["list", "watch", "patch", "create"]
+    verbs: ["list", "watch", "patch", "create", "get"]
 
   - apiGroups: ["apps", "apiextensions.k8s.io"]
     resources: ["deployments", "customresourcedefinitions", "deployments/status"]
